@@ -1,16 +1,42 @@
-
 # <img src="https://flipbot.uberflip.com/flipbot-app-logo.png" height="30"> Uberflip Marketplace App Template
 
-## How to:
+## CTA Customizer
 
-1. You can follow the <a href="https://developers.uberflip.com/docs/intro-to-uberflip-apps" target="_blank">app documentation</a> tutorial to build your first Uberflip App.
+This customizer is used for Link and Form CTA common customizations. Included functionalities are the following:
 
-2. View your <a href="https://marketplace.uberflip.com/developers/" target="_blank">uberflip apps</a> here.
+### Text Spacing
 
-3. Anytime you want to publish changes to the your app, you must re-upload your _manifest.json_ file to your app config.
+- Allow user to specify pixel distance between text elements
+- Allow user to specify specific CTAs to apply to, or all
+
+### Rounded Corners
+
+- Allow user to toggle corner rounding
+- Allow user to define how aggressive rounding is in pixels
+- Allow user to specify specific CTAs to apply to, or all
+
+### Button Styling
+
+- Allow user to specify corner rounding, and how aggressive in pixels
+- Allow user to override font options - Size, Color
+- Allow user to select width and height of button in pixels
+- Allow user to specify specific CTAs to apply to, or all
+
+### Multi-Level Copy - Linked CTAs
+
+- Allow two levels of copy
+- User can input the text for both levels
+- User can define font weight and font size
+
+### Labels as Placeholder Text - Form CTAs
+
+- Allow user to input field placeholder text
+- Allow users to input which field that placeholder text overrides
+- Hide field label if custom placeholder is input
+- Allow user to specify specific CTAs to apply to, or all
 
 > NOTE: When importing your script file into _manifest.json_, the contents must be compiled into <a href="https://lingojam.com/TexttoOneLine" target="_blank">one line</a>.
 
 ## Possible Errors:
-If you have commented lines in your scripts, after it is collapsed into one line, it will comment out anything that follows.
 
+If you have commented lines in your scripts, after it is collapsed into one line, it will comment out anything that follows.
