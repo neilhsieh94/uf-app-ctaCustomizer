@@ -1,60 +1,240 @@
- "account_code_blocks": 
-    [
+{
+  "account_code_blocks": [
     {
-        "code": "_SAMPLE_MANIFEST",
-        "name": "sample_manifest",
-        "content": "<script> console.log('**SAMPLE MANIFEST OUTPUT TEST**'); console.log('Textbox Example: {{textbox_example}}'); console.log('Number Example: {{number_example}}'); console.log('Toggle Example: {{toggle_example}}'); console.log('Debug Example: {{debug_mode}}'); </script>",
-        "placement_code": "BODY_BOTTOM",
-        "description": "This is a sample manifest outputting fields to the console"
+      "code": "_SAMPLE_MANIFEST",
+      "name": "sample_manifest",
+      "content": "<script> console.log('**SAMPLE MANIFEST OUTPUT TEST**'); console.log('Text Spacing: {{text_spacing_val}}'); console.log('Textbox Example: {{textbox_example}}'); console.log('Number Example: {{number_example}}'); console.log('Toggle Example: {{toggle_example}}'); console.log('Debug Example: {{debug_mode}}'); </script><script></script>",
+      "placement_code": "BODY_BOTTOM",
+      "description": "This is a sample manifest outputting fields to the console"
     }
-    ],
+  ],
+  "config_fields": [
+    {
+      "code": "_SPECIFIC_CTA_TOGGLE",
+      "name": "specifc_cta_toggle",
+      "label": "Toggle to only target specific CTA(s)",
+      "ordinal": 0,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub", "account"],
+      "description": "If enabled, only the below entered IDs will be targeted. If disabled, ALL CTAs will be targeted with the CTA customizations"
+    },
+    {
+      "code": "_SPECIFIC_CTA_ARRAY",
+      "name": "specific_cta_array",
+      "ordinal": 1,
+      "label": "List of CTA IDs",
+      "category": "integrations",
+      "control_type": "textbox",
+      "scopes": ["hub", "account"],
+      "description": "Entered IDs will apply the below customizations to said CTAs",
+      "control_props": {
+        "placeholder": "Enter ID's separated by commas, ie: 12345, 23456"
+      }
+    },
+    {
+      "code": "_TEXT_SPACING_TOGGLE",
+      "name": "text_spacing_toggle",
+      "label": "Enable Letter Spacing",
+      "ordinal": 2,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub", "account"],
+      "description": "If enabled, the letters of CTA tiles will have letter spacing based on values set below"
+    },
+    {
+      "code": "_TEXT_SPACING_OMIT_FORM_TOGGLE",
+      "name": "text_spacing_omit_form_toggle",
+      "label": "Omit text spacing for all form CTAs",
+      "ordinal": 3,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub", "account"],
+      "description": "If enabled, text spacing will be omitted for all form CTAs"
+    },
+    {
+      "code": "_CTA_TEXT_SPACING",
+      "name": "text_spacing_val",
+      "ordinal": 4,
+      "label": "Letter Spacing Value (px)",
+      "category": "integrations",
+      "control_type": "number",
+      "scopes": ["hub", "account"],
+      "description": "Enter the Letter Spacing Value"
+    },
+    {
+      "code": "_FONT_SIZE_TOGGLE",
+      "name": "font_size_toggle",
+      "label": "Enable custom font size",
+      "ordinal": 5,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub", "account"],
+      "description": "If enabled, button font sizes will be applied based on values set below. NOTE: Check CTA on multiple window sized to ensure font size selected work on all page sizes"
+    },
+    {
+      "code": "_FONT_SIZE_OMIT_FORM_TOGGLE",
+      "name": "font_size_omit_form_toggle",
+      "label": "Omit custom font sizes for form CTAs",
+      "ordinal": 6,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub", "account"],
+      "description": "If enabled, custom button font size will be omitted for all form CTAs"
+    },
+    {
+      "code": "_FONT_SIZE_VAL",
+      "name": "font_size_val",
+      "label": "Font size value (px)",
+      "ordinal": 7,
+      "category": "integrations",
+      "control_type": "number",
+      "scopes": ["hub", "account"],
+      "description": "Set the button font size"
+    },
+    {
+      "code": "_MULTI_LEVEL_TEXT_TOGGLE",
+      "name": "multi_level_text_toggle",
+      "label": "Enable CTA Multi Level Text",
+      "ordinal": 8,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub", "account"],
+      "description": "If enabled, function will check for the symbol provided below and separate the text into its respective levels."
+    },
+    {
+      "code": "_MULTI_LEVEL_TEXT_OMIT_FORM_TOGGLE",
+      "name": "multi_level_text_omit_form_toggle",
+      "label": "Omit multi level text for form CTAs",
+      "ordinal": 9,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub", "account"],
+      "description": "If enabled, multi level text will be omitted for all form CTAs"
+    },
+    {
+      "code": "_MULTI_LEVEL_TEXT_SYMBOL",
+      "name": "multi_level_symbol_val",
+      "label": "Multi level text symbol",
+      "ordinal": 10,
+      "category": "integrations",
+      "control_type": "textbox",
+      "scopes": ["hub", "account"],
+      "description": "Set the multi level symbol to check for.",
+      "control_props": {
+        "placeholder": "Enter symbol ie. % or %%"
+      }
+    },
+    {
+      "code": "_MULTI_LEVEL_TEXT_VAL",
+      "name": "multi_level_text_val",
+      "label": "Multi level text customizations",
+      "ordinal": 11,
+      "category": "integrations",
+      "control_type": "textbox",
+      "scopes": ["hub", "account"],
+      "description": "Set the multi level font customization parameters (optional).",
+      "control_props": {
+        "placeholder": "Enter font customizations [['{font size}px', '{font weight}px', '{margin bottom}px']]"
+      }
+    },
 
-    "config_fields": 
-    [
     {
-        "code": "_TEXTBOX_EXAMPLE",
-        "name": "textbox_example",   
-        "label": "textbox example",
-        "ordinal": 0,
-        "category": "integrations",
-        "control_type": "textbox",
-        "scopes": ["hub"],
-        "description": "Sample textbox input",
-        "control_props":
-        {
-            "placeholder": "Example textbox placeholder"
-        }
+      "code": "_BUTTON_CORNER_TOGGLE",
+      "name": "button_corner_toggle",
+      "label": "Enable Rounded Button Corners",
+      "ordinal": 12,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub", "account"],
+      "description": "If enabled, the letters of CTA tiles will have letter spacing based on values set below"
     },
     {
-        "code": "_NUMBER_EXAMPLE",
-        "name": "number_example",   
-        "label": "number example",
-        "ordinal": 1,
-        "category": "integrations",
-        "control_type": "number",
-        "scopes": ["hub"],
-        "description": "Sample number input"
+      "code": "_BUTTON_CORNER_OMIT_FORM_TOGGLE",
+      "name": "button_corner_omit_form_toggle",
+      "label": "Omit rounded button corners for all form CTAs",
+      "ordinal": 13,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub", "account"],
+      "description": "If enabled, rounded button corners will be omitted for all form CTAs"
     },
     {
-        "code": "_TOGGLE_EXAMPLE",
-        "name": "toggle_example",   
-        "label": "toggle example",
-        "ordinal": 2,
-        "category": "integrations",
-        "control_type": "toggle",
-        "scopes": ["hub"],
-        "description": "Sample toggle input"
+      "code": "_BUTTON_CORNER_VAL",
+      "name": "button_corner_val",
+      "label": "Button Rounded Corner Radius",
+      "ordinal": 14,
+      "category": "integrations",
+      "control_type": "textbox",
+      "scopes": ["hub", "account"],
+      "description": "Set the corner radius of your content tiles using CSS border-radius format",
+      "control_props": {
+        "placeholder": "10px or 15px 20px"
+      },
+      "validation": {
+        "maxlength": 100
+      }
+    },
+
+    {
+      "code": "_BUTTON_PADDING_TOGGLE",
+      "name": "button_padding_toggle",
+      "label": "Enable custom padding",
+      "ordinal": 15,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub", "account"],
+      "description": "If enabled, button padding will be applied based on values set below"
     },
     {
-        "code": "_DEBUG_MODE",
-        "name": "debug_mode",   
-        "label": "Debug Mode for Developers",
-        "ordinal": 3,
-        "category": "integrations",
-        "control_type": "toggle",
-        "scopes": ["hub"],
-        "description": "For developer debugging purposes, when enabled check the console logs for detailed info on the operation of this app." 
+      "code": "_BUTTON_PADDING_VAL",
+      "name": "button_padding_val",
+      "label": "Button sizing value",
+      "ordinal": 16,
+      "category": "integrations",
+      "control_type": "textbox",
+      "scopes": ["hub", "account"],
+      "description": "Set the button padding",
+      "control_props": {
+        "placeholder": "10px or 15px 20px"
+      },
+      "validation": {
+        "maxlength": 100
+      }
+    },
+    {
+      "code": "_BUTTON_PADDING_OMIT_FORM_TOGGLE",
+      "name": "button_padding_omit_form_toggle",
+      "label": "Omit button padding for form CTAs",
+      "ordinal": 17,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub", "account"],
+      "description": "If enabled, button padding will omitted for all form CTAs"
+    },
+
+    {
+      "code": "_FORM_CTA_LABEL_TEXT",
+      "name": "form_cta_label_text",
+      "label": "Enable form CTA label replacement",
+      "ordinal": 18,
+      "category": "integrations",
+      "control_type": "textbox",
+      "scopes": ["hub", "account"],
+      "description": "If enabled, the function will replace label placeholders with those entered.",
+      "control_props": {
+        "placeholder": "Enter array of replacements [['Old placeholder', 'New placeholder']]"
+      }
+    },
+    {
+      "code": "_DEBUG_MODE",
+      "name": "debug_mode",
+      "label": "Debug Mode for Developers",
+      "ordinal": 19,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub"],
+      "description": "For developer debugging purposes, when enabled check the console logs for detailed info on the operation of this app."
     }
-    ]
+  ]
 }
-

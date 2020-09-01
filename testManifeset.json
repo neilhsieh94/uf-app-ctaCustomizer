@@ -1,0 +1,23 @@
+{
+  "account_code_blocks": [
+    {
+      "code": "_CTA_CUSTOMIZER",
+      "name": "CTA Customizer Scripts",
+      "content": "",
+      "placement_code": "BODY_BOTTOM",
+      "description": "Script required for all common CTA customizations"
+    }
+  ],
+  "config_fields": [
+    {
+      "code": "_CTA_TEXT_SPACING",
+      "name": "text_spacing_val",
+      "ordinal": 0,
+      "label": "Letter Spacing Value (px)",
+      "category": "integrations",
+      "control_type": "number",
+      "scopes": ["hub", "account"],
+      "description": "Enter the Letter Spacing Value"
+    }
+  ]
+}
