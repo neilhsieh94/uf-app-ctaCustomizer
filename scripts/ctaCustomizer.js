@@ -1,7 +1,14 @@
 const specificFormCtaFlag = false;
 const specificFormCtaArr = [];
-
+const specificCtaFlag = false;
+const specificCtaArr = [];
 const ctaCustomizer = () => {
+  console.log("cta customizer is running");
+  console.log(
+    "Text spacing toggle liquid: ",
+    "{{ text_spacing_toggle }}",
+    "{{ text_spacing_val }}"
+  );
   if (!document.querySelector(`.cta`)) return;
   // Currently only link cta
   let ctaTiles = [];
@@ -27,13 +34,15 @@ const ctaCustomizer = () => {
 
   const letterSpacingFunc = (cta) => {
     if ("{{ text_spacing_toggle }}" && "{{ text_spacing_val }}") {
+      console.log("is true and enableing text spacing");
+      console.log("cta is ", Boolean(cta));
       [
         ...cta.querySelectorAll("p"),
         ...cta.querySelectorAll("a"),
         ...cta.querySelectorAll("span"),
         ...cta.querySelectorAll("input"),
       ].forEach((pTag) => {
-        pTag.style.letterSpacing = "{{ text_spacing_val }}";
+        pTag.style.letterSpacing = "{{ text_spacing_val }}" + "px";
       });
     }
   };
@@ -132,12 +141,15 @@ const ctaCustomizer = () => {
         const ctaText =
           cta.querySelector("p").innerText ||
           cta.querySelector(".run-away p").innerText;
-        if (ctaText.includes("{{ multi_level_symbol_val }}")) {
+        if (
+          "{{ multi_level_text_toggle }}" &&
+          "{{ multi_level_symbol_val }}".length &&
+          ctaText.includes("{{ multi_level_symbol_val }}")
+        ) {
           multiLevelCopyFunc(cta, ctaText);
         }
       }
     });
-    const placeholderChangeArr = "{{ form_cta_label_text }}".map((e) => e[0]);
     let formCtas = [];
     if (specificFormCtaFlag) {
       specificFormCtaArr.forEach((ctaId) => {
@@ -149,6 +161,7 @@ const ctaCustomizer = () => {
     }
 
     if ("{{ form_cta_label_text }}".length) {
+      const placeholderChangeArr = "{{ form_cta_label_text }}".map((e) => e[0]);
       formCtas.forEach((formCta) => {
         if (formCta.querySelector(".cta-field-name")) {
           formCtaClickFunc(formCta, placeholderChangeArr);
@@ -169,8 +182,10 @@ const ctaCustomizer = () => {
         formCta.addEventListener("click", () => {
           if (formCta.querySelector(".cta-field-name")) {
             setTimeout(() => {
-              if (labelPlaceholder.length) {
-                const placeholderChangeArr = labelPlaceholder.map((e) => e[0]);
+              if ("{{ labelPlaceholder }}".length) {
+                const placeholderChangeArr = "{{ labelPlaceholder }}".map(
+                  (e) => e[0]
+                );
                 formCtaClickFunc(formCta, placeholderChangeArr);
               }
               if (!"{{ text_spacing_omit_form_toggle }}") {
@@ -194,7 +209,11 @@ const ctaCustomizer = () => {
 
               if (!"{{ multi_level_text_omit_form_toggle }}") {
                 const ctaText = formCta.querySelector(".run-away p").innerText;
-                if (ctaText.includes("{{ multi_level_symbol_val }}")) {
+                if (
+                  "{{ multi_level_text_toggle }}" &&
+                  "{{ multi_level_symbol_val }}".length &&
+                  ctaText.includes("{{ multi_level_symbol_val }}")
+                ) {
                   multiLevelCopyFunc(formCta, ctaText);
                 }
               }
@@ -206,4 +225,4 @@ const ctaCustomizer = () => {
   }
 };
 
-export { ctaCustomizer };
+ctaCustomizer();
