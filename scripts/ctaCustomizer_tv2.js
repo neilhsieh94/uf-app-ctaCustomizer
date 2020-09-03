@@ -1,5 +1,6 @@
 /* eslint-disable curly */
 
+// 246662
 const letterSpacingToggle =
   !!"{{ text_spacing_toggle }}".length &&
   JSON.parse("{{ text_spacing_toggle }}");
@@ -75,22 +76,23 @@ const fontCust =
   toArray("{{ multi_level_text_val }}");
 
 const ctaCustomizer = () => {
-  if (!document.querySelector(`.cta`)) return;
+  if (!document.querySelector(`.uf-cta-tile`)) return;
   // Currently only link cta
   let ctaTiles = [];
 
   // Helper Function
   const formCtaClickFunc = (formCta, placeholderChangeArr) => {
-    const placeholderSpans = [...formCta.querySelectorAll(".cta-field-name")];
+    const placeholderSpans = [...formCta.querySelectorAll(".uf-cta-label")];
     placeholderSpans.forEach((placeholder) => {
+      console.log("placeholder", placeholder.textContent.trim());
       const text = placeholder.textContent.trim();
       if (placeholderChangeArr.includes(text)) {
         const index = placeholderChangeArr.indexOf(text);
         const changeText = labelPlaceholder[index][1];
         const cloneSpan = placeholder.cloneNode();
         cloneSpan.textContent = changeText;
-        cloneSpan.classList.remove("cta-field-name");
-        cloneSpan.classList.add("cta-field-name-clone");
+        // cloneSpan.classList.remove('uf-cta-label');
+        cloneSpan.classList.add("uf-cta-label-clone");
         placeholder.insertAdjacentElement("afterend", cloneSpan);
         placeholder.style.display = "none";
       }
@@ -98,12 +100,15 @@ const ctaCustomizer = () => {
   };
 
   const letterSpacingFunc = (cta) => {
+    console.log(cta.querySelectorAll("p"));
     if (letterSpacingToggle && letterSpacingVal) {
       [
         ...cta.querySelectorAll("p"),
         ...cta.querySelectorAll("a"),
         ...cta.querySelectorAll("span"),
         ...cta.querySelectorAll("input"),
+        ...cta.querySelectorAll("label"),
+        ...cta.querySelectorAll("button"),
       ].forEach((pTag) => {
         pTag.style.letterSpacing = `${letterSpacingVal}px`;
       });
@@ -111,23 +116,33 @@ const ctaCustomizer = () => {
   };
 
   const buttonCornerStylingFunc = (cta) => {
-    const aButton = cta.querySelector(".cta-button");
-    if (buttonCornerRoundToggle && buttonCornerRound)
+    console.log(cta);
+    const aButton =
+      cta.querySelector(".uf-link-cta-tile-link") ||
+      cta.querySelector(".uf-cta-submit-button");
+    if (buttonCornerRoundToggle && buttonCornerRound) {
+      console.log(aButton);
       aButton.style.borderRadius = `${buttonCornerRound}`;
+    }
   };
 
   const buttonFontStylingFunc = (cta) => {
-    const aButton = cta.querySelector(".cta-button");
+    const aButton =
+      cta.querySelector(".uf-link-cta-tile-link") ||
+      cta.querySelector(".uf-cta-submit-button");
     if (fontSizeToggle && fontSize) aButton.style.fontSize = `${fontSize}px`;
   };
 
   const buttonPaddingStylingFunc = (cta) => {
-    const aButton = cta.querySelector(".cta-button");
+    const aButton =
+      cta.querySelector(".uf-link-cta-tile-link") ||
+      cta.querySelector(".uf-cta-submit-button");
     if (buttonPadding && buttonPaddingToggle)
       aButton.style.padding = `${buttonPadding}`;
   };
 
   const multiLevelCopyFunc = (cta, ctaText) => {
+    console.log("multilevelcopy");
     const copySplitArray = ctaText.split(multiLevelSymbol);
     const ctaPElem = cta.querySelector("p");
     ctaPElem.innerText = "";
@@ -137,7 +152,7 @@ const ctaCustomizer = () => {
       pElem.style.display = "block";
       let marginBottom = "10px";
       if (fontCust[i]) {
-        console.log("in multiLevelCopy", fontCust, fontCust[i]);
+        console.log("in fontcust", i, fontCust[i]);
         if (fontCust[i][0]) pElem.style.fontSize = `${fontCust[i][0]}`;
         if (fontCust[i][1]) pElem.style.fontWeight = `${fontCust[i][1]}`;
         if (fontCust[i][2]) marginBottom = `${fontCust[i][2]}`;
@@ -147,14 +162,16 @@ const ctaCustomizer = () => {
     });
   };
 
-  if (document.querySelector(".cta")) {
+  if (document.querySelector(".uf-cta-tile")) {
     if (specificCtaArr.length) {
       specificCtaArr.forEach((ctaId) => {
-        if (document.querySelector(`.cta[data-cta-id='${ctaId}']`))
-          ctaTiles.push(document.querySelector(`.cta[data-cta-id='${ctaId}']`));
+        if (document.querySelector(`.uf-cta-tile[data-id='${ctaId}']`))
+          ctaTiles.push(
+            document.querySelector(`.uf-cta-tile[data-id='${ctaId}']`)
+          );
       });
     } else {
-      ctaTiles = [...document.querySelectorAll(".tile.cta")];
+      ctaTiles = [...document.querySelectorAll(".uf-cta-tile")];
     }
 
     ctaTiles.forEach((cta) => {
@@ -162,7 +179,7 @@ const ctaCustomizer = () => {
       // Checks if to omit form CTAs, always will run on Link CTAs
       if (
         !omitLetterSpacingFormCtaFlag ||
-        cta.classList.contains("cta-website")
+        cta.classList.contains("uf-link-cta-tile")
       ) {
         letterSpacingFunc(cta);
       }
@@ -170,31 +187,37 @@ const ctaCustomizer = () => {
       // Button Styling
       if (
         !omitButtonCornerFormCtaFlag ||
-        cta.classList.contains("cta-website")
+        cta.classList.contains("uf-link-cta-tile")
       ) {
         buttonCornerStylingFunc(cta);
       }
 
-      if (!omitFontSizingFormCtaFlag || cta.classList.contains("cta-website")) {
+      if (
+        !omitFontSizingFormCtaFlag ||
+        cta.classList.contains("uf-link-cta-tile")
+      ) {
         buttonFontStylingFunc(cta);
       }
 
       if (
         !omitButtonPaddingFormCtaFlag ||
-        cta.classList.contains("cta-website")
+        cta.classList.contains("uf-link-cta-tile")
       ) {
         buttonPaddingStylingFunc(cta);
       }
 
-      // if (!omitButtonStyleFormCtaFlag || cta.classList.contains('cta-website')) {
+      // if (!omitButtonStyleFormCtaFlag || cta.classList.contains('uf-link-cta-tile')) {
       //   buttonStylingFunc(cta);
       // }
 
       // Multi Level Text
-      if (!omitMultiLevelFormCtaFlag || cta.classList.contains("cta-website")) {
+      if (
+        !omitMultiLevelFormCtaFlag ||
+        cta.classList.contains("uf-link-cta-tile")
+      ) {
         const ctaText =
           cta.querySelector("p").innerText ||
-          cta.querySelector(".run-away p").innerText;
+          cta.querySelector(".uf-link-cta-tile-text").innerText;
         if (
           multiLevelSymbolToggle &&
           multiLevelSymbol.length &&
@@ -204,13 +227,15 @@ const ctaCustomizer = () => {
         }
       }
     });
-    const formCtas = [...document.querySelectorAll(".tile.cta-form")];
+    const formCtas = [
+      ...document.querySelectorAll(".uf-cta-tile.uf-form-cta-tile"),
+    ];
 
     if (labelPlaceholder.length) {
       const placeholderChangeArr = labelPlaceholder.map((e) => e[0]);
 
       formCtas.forEach((formCta) => {
-        if (formCta.querySelector(".cta-field-name")) {
+        if (formCta.querySelector(".uf-cta-label")) {
           formCtaClickFunc(formCta, placeholderChangeArr);
         }
       });
@@ -227,7 +252,7 @@ const ctaCustomizer = () => {
     ) {
       formCtas.forEach((formCta) => {
         formCta.addEventListener("click", () => {
-          if (formCta.querySelector(".cta-field-name")) {
+          if (formCta.querySelector(".uf-cta-label")) {
             setTimeout(() => {
               if (labelPlaceholder.length) {
                 const placeholderChangeArr = labelPlaceholder.map((e) => e[0]);
@@ -253,7 +278,8 @@ const ctaCustomizer = () => {
               }
 
               if (!omitMultiLevelFormCtaFlag) {
-                const ctaText = formCta.querySelector(".run-away p").innerText;
+                const ctaText = formCta.querySelector(".uf-cta-tagline")
+                  .innerText;
                 if (
                   multiLevelSymbolToggle &&
                   multiLevelSymbol.length &&

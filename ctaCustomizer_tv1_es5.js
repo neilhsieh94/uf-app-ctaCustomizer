@@ -42,13 +42,72 @@ function _arrayLikeToArray(arr, len) {
   return arr2;
 }
 
+/* eslint-disable curly */
+var specificCtaFlag = false;
+var specificCtaArr = []; // 246662
+
+var letterSpacingToggle =
+  !!"{{ text_spacing_toggle }}".length &&
+  JSON.parse("{{ text_spacing_toggle }}");
+var letterSpacingVal = "{{ text_spacing_val }}";
+var buttonCornerRoundToggle =
+  !!"{{ button_corner_toggle }}".length &&
+  JSON.parse("{{ button_corner_toggle }}");
+var buttonCornerRound = "{{ button_corner_val }}";
+var fontSizeToggle =
+  !!"{{ font_size_toggle }}".length && JSON.parse("{{ font_size_toggle }}");
+var fontSize = "{{ font_size_val }}"; // const fontColor = ``;
+
+var buttonPaddingToggle =
+  !!"{{ button_padding_toggle }}".length &&
+  JSON.parse("{{ button_padding_toggle }}");
+var buttonPadding = "{{ button_padding_val }}";
+var omitLetterSpacingFormCtaFlag =
+  !!"{{ text_spacing_omit_form_toggle }}".length &&
+  JSON.parse("{{ text_spacing_omit_form_toggle }}");
+var omitFontSizingFormCtaFlag =
+  !!"{{ font_size_omit_form_toggle }}".length &&
+  JSON.parse("{{ font_size_omit_form_toggle }}");
+var omitButtonCornerFormCtaFlag =
+  !!"{{ button_corner_omit_form_toggle }}".length &&
+  JSON.parse("{{ button_corner_omit_form_toggle }}");
+var omitButtonPaddingFormCtaFlag =
+  !!"{{ button_padding_omit_form_toggle }}".length &&
+  JSON.parse("{{ button_padding_omit_form_toggle }}");
+var omitMultiLevelFormCtaFlag =
+  !!"{{ multi_level_text_omit_form_toggle }}".length &&
+  JSON.parse("{{ multi_level_text_omit_form_toggle }}");
+var labelPlaceholderAllFlag = true;
 var specificFormCtaFlag = false;
 var specificFormCtaArr = [];
+var labelPlaceholderToggle = true; // Multilevel will need to have text in the back of the hub. In the app, we'll put the key symbols to check for
+
+var multiLevelSymbol = "{{ multi_level_symbol_val }}";
+var multiLevelSymbolToggle =
+  !!"{{ multi_level_text_toggle }}".length &&
+  JSON.parse("{{ multi_level_text_toggle }}");
+var multiLevelCopy =
+  "This is First Level $% This is Second Level $% Third Level";
+
+var toArray = function toArray(array) {
+  if (array.length) {
+    console.log("checking array", array);
+    var arrayToJson = array.includes("'") ? array.replace(/'/g, '"') : array;
+    console.log(arrayToJson, "JSON");
+    return JSON.parse(arrayToJson);
+  }
+};
+
+var labelPlaceholder =
+  !!"{{ form_cta_label_text }}".length && toArray("{{ form_cta_label_text }}");
+var fontCust =
+  !!"{{ multi_level_text_val }}".length &&
+  toArray("{{ multi_level_text_val }}");
 
 var ctaCustomizer = function ctaCustomizer() {
-  if (!document.querySelector(".cta")) return;
+  if (!document.querySelector(".cta")) return; // Currently only link cta
 
-  var ctaTiles = [];
+  var ctaTiles = []; // Helper Function
 
   var formCtaClickFunc = function formCtaClickFunc(
     formCta,
@@ -59,12 +118,11 @@ var ctaCustomizer = function ctaCustomizer() {
     );
 
     placeholderSpans.forEach(function(placeholder) {
-      console.log("placeholder", placeholder.textContent.trim());
       var text = placeholder.textContent.trim();
 
       if (placeholderChangeArr.includes(text)) {
         var index = placeholderChangeArr.indexOf(text);
-        var changeText = "{{ form_cta_label_text }}"[index][1];
+        var changeText = labelPlaceholder[index][1];
         var cloneSpan = placeholder.cloneNode();
         cloneSpan.textContent = changeText;
         cloneSpan.classList.remove("cta-field-name");
@@ -76,7 +134,7 @@ var ctaCustomizer = function ctaCustomizer() {
   };
 
   var letterSpacingFunc = function letterSpacingFunc(cta) {
-    if ("{{ text_spacing_toggle }}" && "{{ text_spacing_val }}") {
+    if (letterSpacingToggle && letterSpacingVal) {
       []
         .concat(
           _toConsumableArray(cta.querySelectorAll("p")),
@@ -85,31 +143,31 @@ var ctaCustomizer = function ctaCustomizer() {
           _toConsumableArray(cta.querySelectorAll("input"))
         )
         .forEach(function(pTag) {
-          pTag.style.letterSpacing = "{{ text_spacing_val }}";
+          pTag.style.letterSpacing = "".concat(letterSpacingVal, "px");
         });
     }
   };
 
   var buttonCornerStylingFunc = function buttonCornerStylingFunc(cta) {
     var aButton = cta.querySelector(".cta-button");
-    if ("{{ button_corner_toggle }}" && "{{ button_corner_val }}")
-      aButton.style.borderRadius = "{{ button_corner_val }}";
+    if (buttonCornerRoundToggle && buttonCornerRound)
+      aButton.style.borderRadius = "".concat(buttonCornerRound);
   };
 
   var buttonFontStylingFunc = function buttonFontStylingFunc(cta) {
     var aButton = cta.querySelector(".cta-button");
-    if ("{{ font_size_toggle }}" && "{{ font_size_val }}")
-      aButton.style.fontSize = "{{ font_size_val }}";
+    if (fontSizeToggle && fontSize)
+      aButton.style.fontSize = "".concat(fontSize, "px");
   };
 
   var buttonPaddingStylingFunc = function buttonPaddingStylingFunc(cta) {
     var aButton = cta.querySelector(".cta-button");
-    if ("{{ button_padding_val }}" && "{{ button_padding_toggle }}")
-      aButton.style.padding = "{{ button_padding_val }}";
+    if (buttonPadding && buttonPaddingToggle)
+      aButton.style.padding = "".concat(buttonPadding);
   };
 
   var multiLevelCopyFunc = function multiLevelCopyFunc(cta, ctaText) {
-    var copySplitArray = ctaText.split("{{ multi_level_symbol_val }}");
+    var copySplitArray = ctaText.split(multiLevelSymbol);
     var ctaPElem = cta.querySelector("p");
     ctaPElem.innerText = "";
     copySplitArray.forEach(function(copy, i) {
@@ -118,13 +176,11 @@ var ctaCustomizer = function ctaCustomizer() {
       pElem.style.display = "block";
       var marginBottom = "10px";
 
-      if ("{{ multi_level_text_val }}"[i]) {
-        if ("{{ multi_level_text_val }}"[i][0])
-          pElem.style.fontSize = "{{ multi_level_text_val }}"[i][0];
-        if ("{{ multi_level_text_val }}"[i][1])
-          pElem.style.fontWeight = "{{ multi_level_text_val }}"[i][1];
-        if ("{{ multi_level_text_val }}"[i][2])
-          marginBottom = "{{ multi_level_text_val }}"[i][2];
+      if (fontCust[i]) {
+        console.log("in multiLevelCopy", fontCust, fontCust[i]);
+        if (fontCust[i][0]) pElem.style.fontSize = "".concat(fontCust[i][0]);
+        if (fontCust[i][1]) pElem.style.fontWeight = "".concat(fontCust[i][1]);
+        if (fontCust[i][2]) marginBottom = "".concat(fontCust[i][2]);
       }
 
       pElem.style.marginBottom = marginBottom;
@@ -145,49 +201,49 @@ var ctaCustomizer = function ctaCustomizer() {
     }
 
     ctaTiles.forEach(function(cta) {
+      // Letter Spacing
+      // Checks if to omit form CTAs, always will run on Link CTAs
       if (
-        !"{{ text_spacing_omit_form_toggle }}" ||
+        !omitLetterSpacingFormCtaFlag ||
         cta.classList.contains("cta-website")
       ) {
         letterSpacingFunc(cta);
-      }
+      } // Button Styling
 
       if (
-        !"{{ button_corner_omit_form_toggle }}" ||
+        !omitButtonCornerFormCtaFlag ||
         cta.classList.contains("cta-website")
       ) {
         buttonCornerStylingFunc(cta);
       }
 
-      if (
-        !"{{ font_size_omit_form_toggle }}" ||
-        cta.classList.contains("cta-website")
-      ) {
+      if (!omitFontSizingFormCtaFlag || cta.classList.contains("cta-website")) {
         buttonFontStylingFunc(cta);
       }
 
       if (
-        !"{{ button_padding_omit_form_toggle }}" ||
+        !omitButtonPaddingFormCtaFlag ||
         cta.classList.contains("cta-website")
       ) {
         buttonPaddingStylingFunc(cta);
-      }
+      } // if (!omitButtonStyleFormCtaFlag || cta.classList.contains('cta-website')) {
+      //   buttonStylingFunc(cta);
+      // }
+      // Multi Level Text
 
-      if (
-        !"{{ multi_level_text_omit_form_toggle }}" ||
-        cta.classList.contains("cta-website")
-      ) {
+      if (!omitMultiLevelFormCtaFlag || cta.classList.contains("cta-website")) {
         var ctaText =
           cta.querySelector("p").innerText ||
           cta.querySelector(".run-away p").innerText;
 
-        if (ctaText.includes("{{ multi_level_symbol_val }}")) {
+        if (
+          multiLevelSymbolToggle &&
+          multiLevelSymbol.length &&
+          ctaText.includes(multiLevelSymbol)
+        ) {
           multiLevelCopyFunc(cta, ctaText);
         }
       }
-    });
-    var placeholderChangeArr = "{{ form_cta_label_text }}".map(function(e) {
-      return e[0];
     });
     var formCtas = [];
 
@@ -204,21 +260,24 @@ var ctaCustomizer = function ctaCustomizer() {
       );
     }
 
-    if ("{{ form_cta_label_text }}".length) {
+    if (labelPlaceholder.length) {
+      var placeholderChangeArr = labelPlaceholder.map(function(e) {
+        return e[0];
+      });
       formCtas.forEach(function(formCta) {
         if (formCta.querySelector(".cta-field-name")) {
           formCtaClickFunc(formCta, placeholderChangeArr);
         }
       });
-    }
+    } // Form CTA Click function for additional form fields
 
     if (
-      "{{ form_cta_label_text }}".length ||
-      !"{{ text_spacing_omit_form_toggle }}" ||
-      !"{{ font_size_omit_form_toggle }}" ||
-      !"{{ button_corner_omit_form_toggle }}" ||
-      !"{{ button_padding_omit_form_toggle }}" ||
-      !"{{ multi_level_text_omit_form_toggle }}"
+      labelPlaceholder.length ||
+      !omitLetterSpacingFormCtaFlag ||
+      !omitFontSizingFormCtaFlag ||
+      !omitButtonCornerFormCtaFlag ||
+      !omitButtonPaddingFormCtaFlag ||
+      !omitMultiLevelFormCtaFlag
     ) {
       formCtas.forEach(function(formCta) {
         formCta.addEventListener("click", function() {
@@ -232,26 +291,32 @@ var ctaCustomizer = function ctaCustomizer() {
                 formCtaClickFunc(formCta, _placeholderChangeArr);
               }
 
-              if (!"{{ text_spacing_omit_form_toggle }}") {
+              if (!omitLetterSpacingFormCtaFlag) {
                 letterSpacingFunc(formCta);
-              }
+              } // if (!omitButtonStyleFormCtaFlag) {
+              //   buttonStylingFunc(formCta);
+              // }
 
-              if (!"{{ button_corner_omit_form_toggle }}") {
+              if (!omitButtonCornerFormCtaFlag) {
                 buttonCornerStylingFunc(formCta);
               }
 
-              if (!"{{ font_size_omit_form_toggle }}") {
+              if (!omitFontSizingFormCtaFlag) {
                 buttonFontStylingFunc(formCta);
               }
 
-              if (!"{{ button_padding_omit_form_toggle }}") {
+              if (!omitButtonPaddingFormCtaFlag) {
                 buttonPaddingStylingFunc(formCta);
               }
 
-              if (!"{{ multi_level_text_omit_form_toggle }}") {
+              if (!omitMultiLevelFormCtaFlag) {
                 var ctaText = formCta.querySelector(".run-away p").innerText;
 
-                if (ctaText.includes("{{ multi_level_symbol_val }}")) {
+                if (
+                  multiLevelSymbolToggle &&
+                  multiLevelSymbol.length &&
+                  ctaText.includes(multiLevelSymbol)
+                ) {
                   multiLevelCopyFunc(formCta, ctaText);
                 }
               }
@@ -262,3 +327,5 @@ var ctaCustomizer = function ctaCustomizer() {
     }
   }
 };
+
+ctaCustomizer();
