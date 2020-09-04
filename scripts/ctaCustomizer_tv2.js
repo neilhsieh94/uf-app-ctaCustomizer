@@ -44,7 +44,6 @@ const omitMultiLevelFormCtaFlag =
 const labelPlaceholderAllFlag = true;
 const specificFormCtaFlag = false;
 const specificFormCtaArr = [];
-const labelPlaceholderToggle = true;
 
 // Multilevel will need to have text in the back of the hub. In the app, we'll put the key symbols to check for
 const multiLevelSymbol = "{{ multi_level_symbol_val }}";
@@ -65,26 +64,31 @@ const toArray = (array) => {
 
 const specificCtaFlag =
   !!"{{ specifc_cta_toggle }}".length && JSON.parse("{{ specifc_cta_toggle }}");
+const labelPlaceholderToggle =
+  !!"{{ form_cta_label_toggle }}".length &&
+  JSON.parse("{{ form_cta_label_toggle }}");
+
 const specificCtaArr =
-  !!"{{ specific_cta_array }}".length && toArray("{{ specific_cta_array }}");
+  !!"{{ specific_cta_array }}".length &&
+  toArray(`[${"{{ specific_cta_array }}"}]`);
 
 const labelPlaceholder =
-  !!"{{ form_cta_label_text }}".length && toArray("{{ form_cta_label_text }}");
+  !!"{{ form_cta_label_text }}".length &&
+  toArray(`[${"{{ form_cta_label_text }}"}]`);
 
 const fontCust =
   !!"{{ multi_level_text_val }}".length &&
-  toArray("{{ multi_level_text_val }}");
+  toArray(`[${"{{ multi_level_text_val }}"}]`);
 
-const ctaCustomizer = () => {
+const ctaCustomizer_tv2 = () => {
   if (!document.querySelector(`.uf-cta-tile`)) return;
   // Currently only link cta
   let ctaTiles = [];
 
   // Helper Function
-  const formCtaClickFunc = (formCta, placeholderChangeArr) => {
+  const formCtaClickFunc_tv2 = (formCta, placeholderChangeArr) => {
     const placeholderSpans = [...formCta.querySelectorAll(".uf-cta-label")];
     placeholderSpans.forEach((placeholder) => {
-      console.log("placeholder", placeholder.textContent.trim());
       const text = placeholder.textContent.trim();
       if (placeholderChangeArr.includes(text)) {
         const index = placeholderChangeArr.indexOf(text);
@@ -99,8 +103,7 @@ const ctaCustomizer = () => {
     });
   };
 
-  const letterSpacingFunc = (cta) => {
-    console.log(cta.querySelectorAll("p"));
+  const letterSpacingFunc_tv2 = (cta) => {
     if (letterSpacingToggle && letterSpacingVal) {
       [
         ...cta.querySelectorAll("p"),
@@ -115,25 +118,23 @@ const ctaCustomizer = () => {
     }
   };
 
-  const buttonCornerStylingFunc = (cta) => {
-    console.log(cta);
+  const buttonCornerStylingFunc_tv2 = (cta) => {
     const aButton =
       cta.querySelector(".uf-link-cta-tile-link") ||
       cta.querySelector(".uf-cta-submit-button");
     if (buttonCornerRoundToggle && buttonCornerRound) {
-      console.log(aButton);
       aButton.style.borderRadius = `${buttonCornerRound}`;
     }
   };
 
-  const buttonFontStylingFunc = (cta) => {
+  const buttonFontStylingFunc_tv2 = (cta) => {
     const aButton =
       cta.querySelector(".uf-link-cta-tile-link") ||
       cta.querySelector(".uf-cta-submit-button");
     if (fontSizeToggle && fontSize) aButton.style.fontSize = `${fontSize}px`;
   };
 
-  const buttonPaddingStylingFunc = (cta) => {
+  const buttonPaddingStylingFunc_tv2 = (cta) => {
     const aButton =
       cta.querySelector(".uf-link-cta-tile-link") ||
       cta.querySelector(".uf-cta-submit-button");
@@ -141,8 +142,7 @@ const ctaCustomizer = () => {
       aButton.style.padding = `${buttonPadding}`;
   };
 
-  const multiLevelCopyFunc = (cta, ctaText) => {
-    console.log("multilevelcopy");
+  const multiLevelCopyFunc_tv2 = (cta, ctaText) => {
     const copySplitArray = ctaText.split(multiLevelSymbol);
     const ctaPElem = cta.querySelector("p");
     ctaPElem.innerText = "";
@@ -152,7 +152,6 @@ const ctaCustomizer = () => {
       pElem.style.display = "block";
       let marginBottom = "10px";
       if (fontCust[i]) {
-        console.log("in fontcust", i, fontCust[i]);
         if (fontCust[i][0]) pElem.style.fontSize = `${fontCust[i][0]}`;
         if (fontCust[i][1]) pElem.style.fontWeight = `${fontCust[i][1]}`;
         if (fontCust[i][2]) marginBottom = `${fontCust[i][2]}`;
@@ -163,7 +162,7 @@ const ctaCustomizer = () => {
   };
 
   if (document.querySelector(".uf-cta-tile")) {
-    if (specificCtaArr.length) {
+    if (specificCtaFlag && specificCtaArr.length) {
       specificCtaArr.forEach((ctaId) => {
         if (document.querySelector(`.uf-cta-tile[data-id='${ctaId}']`))
           ctaTiles.push(
@@ -181,7 +180,7 @@ const ctaCustomizer = () => {
         !omitLetterSpacingFormCtaFlag ||
         cta.classList.contains("uf-link-cta-tile")
       ) {
-        letterSpacingFunc(cta);
+        letterSpacingFunc_tv2(cta);
       }
 
       // Button Styling
@@ -189,26 +188,22 @@ const ctaCustomizer = () => {
         !omitButtonCornerFormCtaFlag ||
         cta.classList.contains("uf-link-cta-tile")
       ) {
-        buttonCornerStylingFunc(cta);
+        buttonCornerStylingFunc_tv2(cta);
       }
 
       if (
         !omitFontSizingFormCtaFlag ||
         cta.classList.contains("uf-link-cta-tile")
       ) {
-        buttonFontStylingFunc(cta);
+        buttonFontStylingFunc_tv2(cta);
       }
 
       if (
         !omitButtonPaddingFormCtaFlag ||
         cta.classList.contains("uf-link-cta-tile")
       ) {
-        buttonPaddingStylingFunc(cta);
+        buttonPaddingStylingFunc_tv2(cta);
       }
-
-      // if (!omitButtonStyleFormCtaFlag || cta.classList.contains('uf-link-cta-tile')) {
-      //   buttonStylingFunc(cta);
-      // }
 
       // Multi Level Text
       if (
@@ -223,7 +218,7 @@ const ctaCustomizer = () => {
           multiLevelSymbol.length &&
           ctaText.includes(multiLevelSymbol)
         ) {
-          multiLevelCopyFunc(cta, ctaText);
+          multiLevelCopyFunc_tv2(cta, ctaText);
         }
       }
     });
@@ -231,19 +226,19 @@ const ctaCustomizer = () => {
       ...document.querySelectorAll(".uf-cta-tile.uf-form-cta-tile"),
     ];
 
-    if (labelPlaceholder.length) {
+    if (labelPlaceholderToggle && labelPlaceholder.length) {
       const placeholderChangeArr = labelPlaceholder.map((e) => e[0]);
 
       formCtas.forEach((formCta) => {
         if (formCta.querySelector(".uf-cta-label")) {
-          formCtaClickFunc(formCta, placeholderChangeArr);
+          formCtaClickFunc_tv2(formCta, placeholderChangeArr);
         }
       });
     }
 
     // Form CTA Click function for additional form fields
     if (
-      labelPlaceholder.length ||
+      labelPlaceholderToggle ||
       !omitLetterSpacingFormCtaFlag ||
       !omitFontSizingFormCtaFlag ||
       !omitButtonCornerFormCtaFlag ||
@@ -254,27 +249,24 @@ const ctaCustomizer = () => {
         formCta.addEventListener("click", () => {
           if (formCta.querySelector(".uf-cta-label")) {
             setTimeout(() => {
-              if (labelPlaceholder.length) {
+              if (labelPlaceholderToggle && labelPlaceholder.length) {
                 const placeholderChangeArr = labelPlaceholder.map((e) => e[0]);
-                formCtaClickFunc(formCta, placeholderChangeArr);
+                formCtaClickFunc_tv2(formCta, placeholderChangeArr);
               }
               if (!omitLetterSpacingFormCtaFlag) {
-                letterSpacingFunc(formCta);
+                letterSpacingFunc_tv2(formCta);
               }
-              // if (!omitButtonStyleFormCtaFlag) {
-              //   buttonStylingFunc(formCta);
-              // }
 
               if (!omitButtonCornerFormCtaFlag) {
-                buttonCornerStylingFunc(formCta);
+                buttonCornerStylingFunc_tv2(formCta);
               }
 
               if (!omitFontSizingFormCtaFlag) {
-                buttonFontStylingFunc(formCta);
+                buttonFontStylingFunc_tv2(formCta);
               }
 
               if (!omitButtonPaddingFormCtaFlag) {
-                buttonPaddingStylingFunc(formCta);
+                buttonPaddingStylingFunc_tv2(formCta);
               }
 
               if (!omitMultiLevelFormCtaFlag) {
@@ -285,7 +277,7 @@ const ctaCustomizer = () => {
                   multiLevelSymbol.length &&
                   ctaText.includes(multiLevelSymbol)
                 ) {
-                  multiLevelCopyFunc(formCta, ctaText);
+                  multiLevelCopyFunc_tv2(formCta, ctaText);
                 }
               }
             }, 250);
@@ -295,5 +287,4 @@ const ctaCustomizer = () => {
     }
   }
 };
-
-ctaCustomizer();
+ctaCustomizer_tv2();

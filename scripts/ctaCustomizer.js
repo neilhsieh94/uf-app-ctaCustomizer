@@ -13,7 +13,6 @@ const fontSizeToggle =
   !!"{{ font_size_toggle }}".length && JSON.parse("{{ font_size_toggle }}");
 
 const fontSize = "{{ font_size_val }}";
-// const fontColor = ``;
 const buttonPaddingToggle =
   !!"{{ button_padding_toggle }}".length &&
   JSON.parse("{{ button_padding_toggle }}");
@@ -40,12 +39,6 @@ const omitMultiLevelFormCtaFlag =
   !!"{{ multi_level_text_omit_form_toggle }}".length &&
   JSON.parse("{{ multi_level_text_omit_form_toggle }}");
 
-const labelPlaceholderAllFlag = true;
-const specificFormCtaFlag = false;
-const specificFormCtaArr = [];
-const labelPlaceholderToggle = true;
-
-// Multilevel will need to have text in the back of the hub. In the app, we'll put the key symbols to check for
 const multiLevelSymbol = "{{ multi_level_symbol_val }}";
 const multiLevelSymbolToggle =
   !!"{{ multi_level_text_toggle }}".length &&
@@ -53,34 +46,39 @@ const multiLevelSymbolToggle =
 
 const toArray = (array) => {
   if (array.length) {
-    console.log("checking array", array);
-
     const arrayToJson = array.includes("'") ? array.replace(/'/g, '"') : array;
-
-    console.log(arrayToJson, "JSON");
     return JSON.parse(arrayToJson);
   }
 };
 
 const specificCtaFlag =
   !!"{{ specifc_cta_toggle }}".length && JSON.parse("{{ specifc_cta_toggle }}");
+
+const labelPlaceholderToggle =
+  !!"{{ form_cta_label_toggle }}".length &&
+  JSON.parse("{{ form_cta_label_toggle }}");
+
 const specificCtaArr =
-  !!"{{ specific_cta_array }}".length && toArray("{{ specific_cta_array }}");
+  !!"{{ specific_cta_array }}".length &&
+  toArray(`[${"{{ specific_cta_array }}"}]`);
 
 const labelPlaceholder =
-  !!"{{ form_cta_label_text }}".length && toArray("{{ form_cta_label_text }}");
+  !!"{{ form_cta_label_text }}".length &&
+  toArray(`[${"{{ form_cta_label_text }}"}]`);
 
 const fontCust =
   !!"{{ multi_level_text_val }}".length &&
-  toArray("{{ multi_level_text_val }}");
+  toArray(`[${"{{ multi_level_text_val }}"}]`);
+const debugVariable =
+  !!"{{ debug_mode }}".length && toArray("{{ debug_mode }}");
 
-const ctaCustomizer = () => {
+const ctaCustomizer_tv1 = () => {
   if (!document.querySelector(`.cta`)) return;
   // Currently only link cta
   let ctaTiles = [];
 
   // Helper Function
-  const formCtaClickFunc = (formCta, placeholderChangeArr) => {
+  const formCtaClickFunc_tv1 = (formCta, placeholderChangeArr) => {
     const placeholderSpans = [...formCta.querySelectorAll(".cta-field-name")];
     placeholderSpans.forEach((placeholder) => {
       const text = placeholder.textContent.trim();
@@ -97,8 +95,13 @@ const ctaCustomizer = () => {
     });
   };
 
-  const letterSpacingFunc = (cta) => {
+  const letterSpacingFunc_tv1 = (cta) => {
+    console.log("Toggle and val", letterSpacingToggle, letterSpacingVal);
     if (letterSpacingToggle && letterSpacingVal) {
+      console.log(
+        "span in letterspacing",
+        Boolean(cta.querySelectorAll("span"))
+      );
       [
         ...cta.querySelectorAll("p"),
         ...cta.querySelectorAll("a"),
@@ -110,24 +113,24 @@ const ctaCustomizer = () => {
     }
   };
 
-  const buttonCornerStylingFunc = (cta) => {
+  const buttonCornerStylingFunc_tv1 = (cta) => {
     const aButton = cta.querySelector(".cta-button");
     if (buttonCornerRoundToggle && buttonCornerRound)
       aButton.style.borderRadius = `${buttonCornerRound}`;
   };
 
-  const buttonFontStylingFunc = (cta) => {
+  const buttonFontStylingFunc_tv1 = (cta) => {
     const aButton = cta.querySelector(".cta-button");
     if (fontSizeToggle && fontSize) aButton.style.fontSize = `${fontSize}px`;
   };
 
-  const buttonPaddingStylingFunc = (cta) => {
+  const buttonPaddingStylingFunc_tv1 = (cta) => {
     const aButton = cta.querySelector(".cta-button");
     if (buttonPadding && buttonPaddingToggle)
       aButton.style.padding = `${buttonPadding}`;
   };
 
-  const multiLevelCopyFunc = (cta, ctaText) => {
+  const multiLevelCopyFunc_tv1 = (cta, ctaText) => {
     const copySplitArray = ctaText.split(multiLevelSymbol);
     const ctaPElem = cta.querySelector("p");
     ctaPElem.innerText = "";
@@ -137,7 +140,6 @@ const ctaCustomizer = () => {
       pElem.style.display = "block";
       let marginBottom = "10px";
       if (fontCust[i]) {
-        console.log("in multiLevelCopy", fontCust, fontCust[i]);
         if (fontCust[i][0]) pElem.style.fontSize = `${fontCust[i][0]}`;
         if (fontCust[i][1]) pElem.style.fontWeight = `${fontCust[i][1]}`;
         if (fontCust[i][2]) marginBottom = `${fontCust[i][2]}`;
@@ -148,7 +150,7 @@ const ctaCustomizer = () => {
   };
 
   if (document.querySelector(".cta")) {
-    if (specificCtaArr.length) {
+    if (specificCtaFlag && specificCtaArr.length) {
       specificCtaArr.forEach((ctaId) => {
         if (document.querySelector(`.cta[data-cta-id='${ctaId}']`))
           ctaTiles.push(document.querySelector(`.cta[data-cta-id='${ctaId}']`));
@@ -156,7 +158,6 @@ const ctaCustomizer = () => {
     } else {
       ctaTiles = [...document.querySelectorAll(".tile.cta")];
     }
-
     ctaTiles.forEach((cta) => {
       // Letter Spacing
       // Checks if to omit form CTAs, always will run on Link CTAs
@@ -164,7 +165,7 @@ const ctaCustomizer = () => {
         !omitLetterSpacingFormCtaFlag ||
         cta.classList.contains("cta-website")
       ) {
-        letterSpacingFunc(cta);
+        letterSpacingFunc_tv1(cta);
       }
 
       // Button Styling
@@ -172,18 +173,18 @@ const ctaCustomizer = () => {
         !omitButtonCornerFormCtaFlag ||
         cta.classList.contains("cta-website")
       ) {
-        buttonCornerStylingFunc(cta);
+        buttonCornerStylingFunc_tv1(cta);
       }
 
       if (!omitFontSizingFormCtaFlag || cta.classList.contains("cta-website")) {
-        buttonFontStylingFunc(cta);
+        buttonFontStylingFunc_tv1(cta);
       }
 
       if (
         !omitButtonPaddingFormCtaFlag ||
         cta.classList.contains("cta-website")
       ) {
-        buttonPaddingStylingFunc(cta);
+        buttonPaddingStylingFunc_tv1(cta);
       }
 
       // if (!omitButtonStyleFormCtaFlag || cta.classList.contains('cta-website')) {
@@ -200,25 +201,28 @@ const ctaCustomizer = () => {
           multiLevelSymbol.length &&
           ctaText.includes(multiLevelSymbol)
         ) {
-          multiLevelCopyFunc(cta, ctaText);
+          multiLevelCopyFunc_tv1(cta, ctaText);
         }
       }
     });
+
     const formCtas = [...document.querySelectorAll(".tile.cta-form")];
 
-    if (labelPlaceholder.length) {
+    if (labelPlaceholderToggle && labelPlaceholder.length) {
       const placeholderChangeArr = labelPlaceholder.map((e) => e[0]);
 
       formCtas.forEach((formCta) => {
         if (formCta.querySelector(".cta-field-name")) {
-          formCtaClickFunc(formCta, placeholderChangeArr);
+          formCtaClickFunc_tv1(formCta, placeholderChangeArr);
         }
       });
     }
 
+    console.log("before click function, letter toggle", letterSpacingToggle);
+
     // Form CTA Click function for additional form fields
     if (
-      labelPlaceholder.length ||
+      labelPlaceholderToggle ||
       !omitLetterSpacingFormCtaFlag ||
       !omitFontSizingFormCtaFlag ||
       !omitButtonCornerFormCtaFlag ||
@@ -226,30 +230,35 @@ const ctaCustomizer = () => {
       !omitMultiLevelFormCtaFlag
     ) {
       formCtas.forEach((formCta) => {
+        console.log("for each, letter toggle", letterSpacingToggle);
         formCta.addEventListener("click", () => {
+          console.log("clicked, letter toggle", letterSpacingToggle);
           if (formCta.querySelector(".cta-field-name")) {
             setTimeout(() => {
-              if (labelPlaceholder.length) {
+              console.log("timeout, letter toggle", letterSpacingToggle);
+
+              if (labelPlaceholderToggle && labelPlaceholder.length) {
                 const placeholderChangeArr = labelPlaceholder.map((e) => e[0]);
-                formCtaClickFunc(formCta, placeholderChangeArr);
+                formCtaClickFunc_tv1(formCta, placeholderChangeArr);
               }
               if (!omitLetterSpacingFormCtaFlag) {
-                letterSpacingFunc(formCta);
+                console.log("letter spacing");
+                letterSpacingFunc_tv1(formCta);
               }
               // if (!omitButtonStyleFormCtaFlag) {
               //   buttonStylingFunc(formCta);
               // }
 
               if (!omitButtonCornerFormCtaFlag) {
-                buttonCornerStylingFunc(formCta);
+                buttonCornerStylingFunc_tv1(formCta);
               }
 
               if (!omitFontSizingFormCtaFlag) {
-                buttonFontStylingFunc(formCta);
+                buttonFontStylingFunc_tv1(formCta);
               }
 
               if (!omitButtonPaddingFormCtaFlag) {
-                buttonPaddingStylingFunc(formCta);
+                buttonPaddingStylingFunc_tv1(formCta);
               }
 
               if (!omitMultiLevelFormCtaFlag) {
@@ -259,7 +268,7 @@ const ctaCustomizer = () => {
                   multiLevelSymbol.length &&
                   ctaText.includes(multiLevelSymbol)
                 ) {
-                  multiLevelCopyFunc(formCta, ctaText);
+                  multiLevelCopyFunc_tv1(formCta, ctaText);
                 }
               }
             }, 250);
@@ -270,4 +279,4 @@ const ctaCustomizer = () => {
   }
 };
 
-ctaCustomizer();
+ctaCustomizer_tv1();
