@@ -197,7 +197,7 @@
       "scopes": ["hub", "account"],
       "description": "Set the multi level symbol to check for.",
       "control_props": {
-        "placeholder": "Enter symbol ie. % or %%"
+        "placeholder": "Enter symbol ie. % or %*"
       },
       "validation": {
         "maxlength": 10

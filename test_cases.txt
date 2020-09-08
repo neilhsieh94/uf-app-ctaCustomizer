@@ -1,0 +1,105 @@
+GENERIC test case: Test having values in the different features, but having the the feature toggled off. 
+GENERIC expected result: Feature should not be applied.
+
+[ Specific CTA ] List of CTA IDs
+- Enter CTA IDs specific to your hub. List the IDs  separated by a comma ie: 12345, 67890, ...
+
+********************************************************************
+********************************************************************
+********************************************************************
+
+[ Letter Spacing ]
+- Toggle feature and omit form cta accordingly
+
+********************************************************************
+********************************************************************
+********************************************************************
+
+[ Button Font Size ]
+- Toggle feature and omit form cta accordingly
+
+********************************************************************
+********************************************************************
+********************************************************************
+
+[ Round Button ] Button Rounded Corner Radius
+
+- Toggle feature and omit form cta accordingly
+
+NOTE: Toggle must be on for values to be applied: [ Round Button ] Enable Rounded Button Corners. If toggle is not on, even if values are present, they shouldn't apply.
+
+Test cases:
+1) 10px
+2) 10px 5%
+3) 10px / 20px
+
+Expected results should have border radius that corresponds with the values set, see this page for additional examples and expected results: https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius
+
+********************************************************************
+********************************************************************
+********************************************************************
+
+[ Button Padding ] Button padding value
+
+- Toggle feature and omit form cta accordingly
+
+NOTE: Toggle must be on for values to be applied: [ Button Padding ] Enable custom padding. If toggle is not on, even if values are present, they shouldn't apply.
+
+Test cases:
+1) 20px
+2) 10px 100px / 120px
+3) 5% 10%
+
+Expected results should have padding that corresponds with the values set, see this page for additional examples and expected results:: https://developer.mozilla.org/en-US/docs/Web/CSS/padding
+
+********************************************************************
+********************************************************************
+********************************************************************
+
+[ Multi Level ] Multi level text symbol
+
+- Toggle feature and omit form cta accordingly
+
+NOTE: Toggle must be on for values to be applied: [ Multi Level ] Enable CTA Multi Level Text. If toggle is not on, even if values are present, they shouldn't apply.
+
+Test case:
+1) enter symbol that your CTA text has been divided by: Example CTA text: Level 1 $% Level 2. This will be divided to:
+Level 1
+Level 2
+
+In this example, the symbol is $%
+
+[ Multi Level ] Multi level text customizations
+Test cases: 
+1)  ['100%', 700, '20px']
+First value is font size, second is font weight, third is margin bottom 
+Expected result: First section with 100% font size (100% of that set in the back of hub in Call-To-Action), font weight of 700 (bold), and margin bottom of 20px.
+
+
+2) ['100%', 700 , '20px'], ['60%', 500] 
+For customizations for multiple levels, separate customization arrays with commas
+First array is above example.
+Second array will apply to the second section (if exists) and will have font size and font weight customization.
+Expected result: First section with 
+
+
+3) ['100%', 700 , '20px'], ['60%', '', '10px'], ['16px']
+Second array here has font size, default font weight, and customized margin bottom, and will apply to third section (if applies).
+Third array here has only font size and will apply to third section (if applies)
+
+********************************************************************
+********************************************************************
+********************************************************************
+
+[ Form CTA Labels ] Form CTA label replacement values
+
+- Toggle feature and omit form cta accordingly
+
+NOTE: Toggle must be on for values to be applied: [ Form CTA Labels ] Enable form CTA label replacement. If toggle is not on, even if values are present, they shouldn't apply.
+
+Test cases:
+1) ['Email', 'Your Email']
+First is current label. Second is the replacement text.
+
+2) ['Email', 'Your Email'], ['First Name', 'Name [First]']
+For multiple replacements, add on additional arrays, separate by commas.
