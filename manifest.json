@@ -213,7 +213,7 @@
       "scopes": ["hub", "account"],
       "description": "Set the multi level font customization parameters (optional). See app description for more detail",
       "control_props": {
-        "placeholder": "ie. [['18px', '500', '10px'],['14px', '',  '5px']]"
+        "placeholder": "ie. ['18px', '500', '10px'],['70%', '',  '5px']"
       }
     },
     {
@@ -236,7 +236,7 @@
       "scopes": ["hub", "account"],
       "description": "Enter your custom Form CTA label text(s).",
       "control_props": {
-        "placeholder": "Enter array of replacements [['Old placeholder', 'New placeholder']]"
+        "placeholder": "Enter array of replacements ['Old placeholder', 'New placeholder'],[...]"
       }
     },
     {
