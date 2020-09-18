@@ -1,9 +1,16 @@
 {
   "account_code_blocks": [
     {
+      "code": "_SAMPLE_STYLE_MANIFEST",
+      "name": "sample_style_manifest",
+      "content": "<script> console.log('**SAMPLE MANIFEST OUTPUT TEST**'); </script><style>.black-bg{background-color:#000}.pink-border{box-sizing:border-box;border:10px solid pink}</style>",
+      "placement_code": "HEAD",
+      "description": "This is the stylesheet"
+    },
+    {
       "code": "_SAMPLE_MANIFEST",
       "name": "sample_manifest",
-      "content": "<script> console.log('**SAMPLE MANIFEST OUTPUT TEST**'); </script><style>.black-bg{background-color:#000}.pink-border{box-sizing:border-box;border:10px solid pink}</style><script>\"use strict\";var blackBgToggle=!!\"{{ black_bg_toggle }}\".length&&JSON.parse(\"{{ black_bg_toggle }}\"),pinkBorderToggle=!!\"{{ pink_border_toggle }}\".length&&JSON.parse(\"{{ pink_border_toggle }}\"),appTest=function(){blackBgToggle&&document.body.classList.add(\"black-bg\"),pinkBorderToggle&&document.body.classList.add(\"pink-border\")};appTest();</script>",
+      "content": "<script> console.log('**SAMPLE MANIFEST OUTPUT TEST**'); </script><script>\"use strict\";var blackBgToggle=!!\"{{ black_bg_toggle }}\".length&&JSON.parse(\"{{ black_bg_toggle }}\"),pinkBorderToggle=!!\"{{ pink_border_toggle }}\".length&&JSON.parse(\"{{ pink_border_toggle }}\"),appTest=function(){blackBgToggle&&document.body.classList.add(\"black-bg\"),pinkBorderToggle&&document.body.classList.add(\"pink-border\")};appTest();</script>",
       "placement_code": "BODY_BOTTOM",
       "description": "This is a sample manifest outputting fields to the console"
     }
