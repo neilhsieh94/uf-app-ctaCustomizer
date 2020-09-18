@@ -3,7 +3,7 @@
     {
       "code": "_SAMPLE_STYLE_MANIFEST",
       "name": "sample_style_manifest",
-      "content": "<script> console.log('**SAMPLE MANIFEST OUTPUT TEST**'); </script><style>.black-bg{background-color:#000}.pink-border{box-sizing:border-box;border:10px solid pink}</style>",
+      "content": "<style>.black-bg{background-color:#000}.pink-border{box-sizing:border-box;border:10px solid pink}</style>",
       "placement_code": "HEAD",
       "description": "This is the stylesheet"
     },
