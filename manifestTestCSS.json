@@ -1,0 +1,50 @@
+{
+  "account_code_blocks": [
+    {
+      "code": "_SAMPLE_STYLE_MANIFEST",
+      "name": "sample_style_manifest",
+      "content": "<style>.black-bg{background-color:#000}.pink-border{box-sizing:border-box;border:10px solid pink}</style>",
+      "placement_code": "HEAD",
+      "description": "This is the stylesheet"
+    },
+    {
+      "code": "_SAMPLE_MANIFEST",
+      "name": "sample_manifest",
+      "content": "<script> console.log('**SAMPLE MANIFEST OUTPUT TEST**'); </script><script>\"use strict\";var blackBgToggle=!!\"{{ black_bg_toggle }}\".length&&JSON.parse(\"{{ black_bg_toggle }}\"),pinkBorderToggle=!!\"{{ pink_border_toggle }}\".length&&JSON.parse(\"{{ pink_border_toggle }}\"),appTest=function(){blackBgToggle&&document.body.classList.add(\"black-bg\"),pinkBorderToggle&&document.body.classList.add(\"pink-border\")};appTest();</script>",
+      "placement_code": "BODY_BOTTOM",
+      "description": "This is a sample manifest outputting fields to the console"
+    }
+  ],
+  "config_fields": [
+    {
+      "code": "_BLACK_BG_TOGGLE",
+      "name": "black_bg_toggle",
+      "label": "Toggle to add .black-bg class to body to change background colour using css stylesheet",
+      "ordinal": 0,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub", "account"],
+      "description": "Toggle for black background"
+    },
+    {
+      "code": "_PINK_BORDER_TOGGLE",
+      "name": "pink_border_toggle",
+      "label": "Toggle to add .pink-border class to body to add border using css stylesheet",
+      "ordinal": 1,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub", "account"],
+      "description": "Toggle for pink border"
+    },
+    {
+      "code": "_DEBUG_MODE",
+      "name": "debug_mode",
+      "label": "Debug Mode for Developers",
+      "ordinal": 20,
+      "category": "integrations",
+      "control_type": "toggle",
+      "scopes": ["hub"],
+      "description": "For developer debugging purposes, when enabled check the console logs for detailed info on the operation of this app."
+    }
+  ]
+}
